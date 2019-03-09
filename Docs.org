@@ -1,0 +1,138 @@
+* Tasks
+** DONE Create Git repository
+** DONE Write a preliminary program design
+** DONE Update this list after designing
+** TODO Board class
+** TODO Print an empty board
+** TODO Parent piece class
+** TODO Implement pieces
+** TODO Print a board with pieces
+** TODO Board boundary checks
+** TODO Input
+** TODO Rook movement
+** TODO Bishop movement
+** TODO Queen movement
+** TODO Knight movement
+** TODO King movement
+** TODO Pawn movement
+** TODO Capturing
+** TODO Check win condition
+** TODO Movement edge cases
+** TODO Input validation
+
+* Program design
+** Logic
+*** Introduction
+In chess there are two players. One playing as the white pieces,
+and one playing as the black pieces. The ultimate goal is to
+checkmate your opponent, which means that their king is attacked,
+and there is no way to defend or move it.
+
+Usually there is a time limit for each player, but that will not
+be implemented in this game.
+
+Both players have different pieces at their disposal, and they
+have varying movement patterns. I will go through their movement
+in short under pieces.
+*** Pieces
+There are 6 different kinds of pieces. King, queen, bishop, knight, rook and pawn.
+They all move in a particular way, and especially the pawn has some special rules.
+
+If a player's king is in check, they *must* make a move that repells that check.
+A piece *cannot* move 'past' a friend or a foe unless otherwise specified,
+but they can capture the enemy piece.
+
+/King movement/
+The king can only move one square at a time, but it can move to any of the 8
+squares around it. This is true as long as the move doesn't put the king
+in check, then the move is illegal.
+Also, the king can castle. This means that the king moves two steps towards
+one of the rooks, and the rook moves to the square just past the king.
+The condition for this is that the rook and king have not moved, squares
+between rook and king are empty, king does not castle from, through
+or to check.
+
+/Queen movement/
+The queen can move in any direction, as many squares as she likes.
+
+/Bishop movement/
+The bishop moves only diagonally.
+
+/Knight movement/
+The knight makes jumps shaped like an 'L'. Meaning it can for example go
+two squares up, and then one square to the right or left. The knight can
+jump across both friend and foe.
+
+/Rook movement/
+The rook can only move straight up, down, right or left. No diagonal moves.
+
+/Pawn movement/
+If the pawn has not yet moved, and there is nothing blocking it, it can take
+two squares forward. Otherwise it can move one square forward.
+The pawn cannot move backwards, and it cannot capture straight in front
+of itself. Instead it can capture when the opponent has a piece diagonally
+just in front of the pawn.
+If the pawn ever reaches the opponent's backrank (the furthest it can go),
+it can be promoted to any piece of the player's choosing, except for king
+or pawn.
+
+/En passant/
+This movement might not be implemented in this game. It depends on the difficulty.
+If one of a player's pawns has reached the row two squares in front of the
+opponent's original pawn row, and the opponent moves a pawn two squares so
+that it is then located just next to the player pawn. Then the player can
+*only* during the next move perform an /en passant/, meaning that they
+move in behind the just previously moved pawn and also capture it.
+
+*** Board
+The board is 8x8 squares and will be represented with a class. It should contain a data structure which
+keeps tracks of the current board state, where pieces are present and so on. The board should
+perform no logic on gamestate or moves. It should only be able to say what pieces are located where.
+*** Moves
+I think it's best if the pieces themselves keep track of how they move. When a player makes a move, the piece
+will ask the Board for permission to make the move, the Board uses external and internal logic
+to decide whether it is okay. The piece will then be notified and can answer us back.
+
+Possibly there is an easier and more efficient way, but I will stick with this for now, and maybe change it later.
+*** Gamestate
+Something needs to keep track of whose turn it is right now, and more things, and I think a gamestate
+class of some sort will be perfect for that.
+
+Player turn, winning logic etc
+
+This will preferrably be used in the main loop, where a while-loop keeps running while the game
+is not over. Then the gamestate can print the winner.
+
+*** Listeners
+A possible idea is to have the gamestate and possibly other classes listen to changes
+in board. This will probably make some of the code a bit cleaner. But it remains
+to see if it's necessary.
+
+*** Input/Output
+When using the console, the user has to input moves into the interpreter and
+those need to be evaluated somehow. When it comes to output, the board
+should print itself and the gamestate should have appropriate functions to get
+the current state.
+** GUI
+*** Introduction
+   The GUI will preferrably be in the console at the start,
+   using prints to represent a simple version of the board.
+
+   Once all of the logic is done and works as intended, I
+   might add a custom GUI using pygame or a similar library.
+   But I have to decide later if it's valuable or not.
+*** Console implementation
+    Chess consists of a 8x8 board. The program will simply
+    print "-" if the position is unoccupied, and the major
+    and minor pieces will be represented with a letter.
+
+    This implementation will only have access to the board,
+    and can ask it for whatever piece is at a certain square.
+
+    * King 	= 'K'
+    * Queen 	= 'Q'
+    * Bishop 	= 'B'
+    * Knight 	= 'N'
+    * Rook 	= 'R'
+    * Pawn 	= 'P'
+* Notes
