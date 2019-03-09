@@ -1,0 +1,6 @@
+* WORK IN PROGRESS
+
+-----------------------
+
+A Python project implementing Chess. It will at first be played
+within the console and then possibly extended to a graphical interface.
